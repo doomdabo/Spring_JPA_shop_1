@@ -14,7 +14,8 @@ public class MemberRepository {
     private EntityManager em; //스프링이 엔티티 메니저 만들어서 주입해줌
 
     public void save(Member member){
-        em.persist(member);
+        em.persist(member); //persist를 하면 이 순간에 영속성 context에 이 멤버 객체 올리는데, Key가 id값이 된다.
+        // 그래서 @GeneratedValue를 하면 id값이 항상 생성되는게 보장된다. DB에 들어가는 시점이 아니여도 그렇게 해준다.
     }
 
     public Member findOne(Long id){
