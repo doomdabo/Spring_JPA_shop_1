@@ -1,6 +1,8 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -9,9 +11,9 @@ import javax.swing.*;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
-    @PersistenceContext
-    private EntityManager em; //스프링이 엔티티 메니저 만들어서 주입해줌
+    private final EntityManager em; //스프링이 엔티티 메니저 만들어서 주입해줌
 
     public void save(Member member){
         em.persist(member); //persist를 하면 이 순간에 영속성 context에 이 멤버 객체 올리는데, Key가 id값이 된다.
