@@ -14,7 +14,7 @@ public class Delivery {
     @Column(name="delivery_id")
     private Long id;
 
-    @OneToOne(mappedBy="delivery")
+    @OneToOne(mappedBy="delivery",fetch = FetchType.LAZY)
     private Order order; //one to one에서는 foreign 키 어디다 둬도 상관 없는데, 접근 많이 하는 곳에 foreign키 두는걸 선호하심.
 
     @Embedded

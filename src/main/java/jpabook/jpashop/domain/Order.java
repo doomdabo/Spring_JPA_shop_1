@@ -1,6 +1,8 @@
 package jpabook.jpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.aspectj.weaver.ast.Or;
 
@@ -12,20 +14,30 @@ import java.util.List;
 @Entity
 @Table(name="orders")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue
     @Column(name="order_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id") //주문한 회원에 대한 정보 매핑
     private Member member; //멤버랑 관계 설정 - 다대일 관계 ; 반대로 멤버 입장에서는 하나의 회원이 여러개 상품 주문--> 일대다 관계
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne
+    /**
+     *     persist(orderItemA)
+     *     persist(orderItemB)
+     *     persist(orderItemC)
+     *     를 일일히 다 해줘야 하는데, cascade를 쓰면
+     *     persist를 전파시킨다. 따라서
+     *     persist(order)하나만 쓰면 된다.
+     */
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="delivery_id")
     private Delivery delivery;
 

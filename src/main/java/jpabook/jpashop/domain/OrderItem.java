@@ -2,29 +2,35 @@ package jpabook.jpashop.domain;
 
 
 import jpabook.jpashop.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//다른 생성 메서드로 접근 못하도록!
 public class OrderItem {
 
     @Id @GeneratedValue
     @Column(name= "order_item_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="item_id")
     private Item item;
 
-    @ManyToOne //하나의 주문이 여러개 오더 아이템 가질 수 있음
+    @ManyToOne(fetch = FetchType.LAZY) //하나의 주문이 여러개 오더 아이템 가질 수 있음
     @JoinColumn(name="order_id")
     private Order order;
 
     private int orderPrice; //주문 가격
     private int count; //주문 수량
+
+
 
     //==생성 메서드==//
     //여러개 연관관계 있고 복잡하면 별도의 생성 메서드가 있으면 좋다.

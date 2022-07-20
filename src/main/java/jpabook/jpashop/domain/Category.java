@@ -21,10 +21,16 @@ public class Category {
     //inverse는 category_item 테이블의 아이템 쪽으로 들어가는 것 매핑해줌
     private List<Item> items = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="parent_id")
     private Category parent; //카테고리의 계층 구조->셀프로 양방향 연관관계
 
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
+
+    //==연관관계 메서드==//
+    public void addChildCategory(Category child){
+        this.child.add(child);
+        child.setParent(this);
+    }
 }
