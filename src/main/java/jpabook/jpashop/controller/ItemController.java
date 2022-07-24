@@ -57,15 +57,18 @@ public class ItemController {
         return "items/updateItemForm";
     }
     @PostMapping("items/{itemId}/edit")
-    public String updateItem(@ModelAttribute("form") BookForm form){
-        Book book = new Book();
-        book.setId(form.getId());
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
-        itemService.saveItem(book);
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form){
+//        Book book = new Book();
+//        book.setId(form.getId());
+//        book.setName(form.getName());
+//        book.setPrice(form.getPrice());
+//        book.setStockQuantity(form.getStockQuantity());
+//        book.setAuthor(form.getAuthor());
+//        book.setIsbn(form.getIsbn());
+//        itemService.saveItem(book);
+        itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
+        //어설프게 엔티티를 파라미터로 안쓰고 정확하게 필요한 데이터만 받은거라 유지보수에도 좋파
+        //파라미터 많으면 Dto만드는게 좋다
         return "redirect:/items";
     }
 }

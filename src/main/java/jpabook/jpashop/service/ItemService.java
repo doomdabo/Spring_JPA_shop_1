@@ -21,12 +21,15 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(Long itemId, Book bookParam){
+    public void updateItem(Long itemId, String name, int price, int stockQuantity){
         Item findItem = itemRepository.findOne(itemId);
-        findItem.setPrice(bookParam.getPrice());
-        findItem.setName(bookParam.getName());
-        findItem.setStockQuantity(bookParam.getStockQuantity());
+        //트랜잭션안에서 엔티티를 조회해야 영속상태로 조회되고 거기서 값 변경해야지 변경감지가 가능하다.
+        findItem.setPrice(price);
+        findItem.setName(name);
+        findItem.setStockQuantity(stockQuantity);
     }
+    //setter 없이 엔티티 안에서 바로 추적할 수 있는 메소드 만들기!!
+    //findeItem.change(price,name,stockQuantity) 이런거 만들어서 이거 하나만 추적하면 되도록!
     public List<Item> findItems(){
         return itemRepository.findAll();
     }
