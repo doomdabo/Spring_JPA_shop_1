@@ -80,11 +80,14 @@ public class Order {
      * 주문 취소
      * 이미 배송된 상품 주문취소못하는 로직이 엔티티 안에 있다.
      * */
+    //Order.java
     public void cancel(){
         if(delivery.getStatus() == DeliveryStatus.COMP){
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }
         this.setStatus(OrderStatus.CANCEL);
+        //DB 업데이트 명령어 날린 적 없다. 값 가져와서 바꾸면 그냥 JPA가 커밋시점에 바뀐데 찾아서 DB 업데이트 하고 커밋.
+        //-->flush할 때 dirty checking 일어난다. 이게 JPA 기본 메커니즘
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
 
